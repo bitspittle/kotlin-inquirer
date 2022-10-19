@@ -1,39 +1,40 @@
-import com.github.kinquirer.components.*
-import com.github.kinquirer.KInquirer
+import com.github.kinquirer.prompts.*
+import com.github.kinquirer.kinquirer
+import com.varabyte.kotter.foundation.text.text
 import java.math.BigDecimal
 
-fun main() {
+fun main() = kinquirer {
     // Confirm
-    val isDelivery: Boolean = KInquirer.promptConfirm(message = "Is this for delivery?", default = false)
+    val isDelivery: Boolean = promptConfirm(message = "Is this for delivery?", default = false)
     println("Is Delivery: $isDelivery")
 
     // Input
-    val comments: String = KInquirer.promptInput(message = "Any comments on your purchase experience?")
+    val comments: String = promptInput(message = "Any comments on your purchase experience?")
     println("Comments: $comments")
 
     // Input Numbers
-    val quantity: BigDecimal = KInquirer.promptInputNumber(message = "How many do you need?")
+    val quantity: BigDecimal = promptInputNumber(message = "How many do you need?")
     println("Quantity: $quantity")
 
     // Input Password
-    val password: String = KInquirer.promptInputPassword(message = "Enter Your Password:", hint = "password")
+    val password: String = promptInputPassword(message = "Enter Your Password:", hint = "password")
     println("Password: $password")
 
     // Input Password Masked
-    val passwordMasked: String = KInquirer.promptInputPassword(
+    val passwordMasked: String = promptInputPassword(
         message = "Enter Your Password:",
         hint = "password",
-        mask = "🤫"
+        mask = 'x'
     )
     println("Password: $passwordMasked")
 
     // List
     val size: String =
-        KInquirer.promptList(message = "What size do you need?", choices = listOf("Large", "Medium", "Small"))
+        promptList(message = "What size do you need?", choices = listOf("Large", "Medium", "Small"))
     println("Size: $size")
 
     // List View Options
-    val continent: String = KInquirer.promptList(
+    val continent: String = promptList(
         message = "Select a continent:",
         choices = listOf(
             "Asia",
@@ -47,15 +48,15 @@ fun main() {
         hint = "press Enter to pick",
         pageSize = 3,
         viewOptions = ListViewOptions(
-            questionMarkPrefix = "🌍",
-            cursor = " 😎 ",
-            nonCursor = "    ",
+            questionMarkPrefix = { text("🌍") },
+            cursor = { text(" 😎 ") },
+            nonCursor = { text("    ") },
         )
     )
     println("Continent: $continent")
 
     // Checkbox
-    val toppings: List<String> = KInquirer.promptCheckbox(
+    val toppings: List<String> = promptCheckbox(
         message = "What about the toppings?",
         choices = listOf(
             "Pepperoni and cheese",
@@ -66,7 +67,7 @@ fun main() {
     println("Toppings: $toppings")
 
     // Checkbox View Options
-    val colors: List<String> = KInquirer.promptCheckbox(
+    val colors: List<String> = promptCheckbox(
         message = "Which colors do you prefer?",
         choices = listOf(
             "Red",
@@ -81,11 +82,11 @@ fun main() {
         minNumOfSelection = 2,
         pageSize = 3,
         viewOptions = CheckboxViewOptions(
-            questionMarkPrefix = "❓",
-            cursor = " 👉 ",
-            nonCursor = "    ",
-            checked = "✅ ",
-            unchecked = "○ ",
+            questionMarkPrefix = { text("❓") },
+            cursor = { text(" 👉 ") },
+            nonCursor = { text("    ") },
+            checked = { text("✅ ") },
+            unchecked = { text("○ ") },
         )
     )
     println("Colors: $colors")

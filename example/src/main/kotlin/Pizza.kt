@@ -1,8 +1,13 @@
-import com.github.kinquirer.components.*
-import com.github.kinquirer.core.Choice
 import com.github.kinquirer.KInquirer
+import com.github.kinquirer.core.Choice
+import com.github.kinquirer.kinquirer
+import com.github.kinquirer.prompts.*
+//import com.github.kinquirer.components.*
+//import com.github.kinquirer.core.Choice
+//import com.github.kinquirer.KInquirer
 import java.math.BigDecimal
 
+//
 data class PizzaOrder(
     val isDelivery: Boolean,
     val phoneNumber: String,
@@ -13,16 +18,16 @@ data class PizzaOrder(
     val comments: String,
 )
 
-fun main() {
+fun main() = kinquirer {
     println("Hi, welcome to Kotlin's Pizza")
-    val isDelivery: Boolean = KInquirer.promptConfirm("Is this for delivery?", default = false)
-    val phoneNumber: String = KInquirer.promptInput(
+    val isDelivery: Boolean = promptConfirm("Is this for delivery?", default = false)
+    val phoneNumber: String = promptInput(
         message = "What's your phone number?",
         filter = { s -> s.matches("\\d+".toRegex()) },
     )
-    val size: String = KInquirer.promptList("What size do you need?", listOf("Large", "Medium", "Small"))
-    val quantity: BigDecimal = KInquirer.promptInputNumber("How many do you need?")
-    val toppings: List<String> = KInquirer.promptCheckboxObject(
+    val size: String = promptList("What size do you need?", listOf("Large", "Medium", "Small"))
+    val quantity: BigDecimal = promptInputNumber("How many do you need?")
+    val toppings: List<String> = promptCheckboxObject(
         message = "What about the toppings?",
         choices = listOf(
             Choice("Pepperoni and cheese", "pepperonicheese"),
@@ -30,8 +35,8 @@ fun main() {
             Choice("Hawaiian", "hawaiian"),
         ),
     )
-    val beverage: String = KInquirer.promptList("You also get a free 2L beverage", listOf("Pepsi", "7up", "Coke"))
-    val comments: String = KInquirer.promptInput(
+    val beverage: String = promptList("You also get a free 2L beverage", listOf("Pepsi", "7up", "Coke"))
+    val comments: String = promptInput(
         message = "Any comments on your purchase experience?",
         hint = "Nope, all good!",
         default = "Nope, all good!",
@@ -50,3 +55,4 @@ fun main() {
     println("====== Order receipt ======")
     println(order)
 }
+
