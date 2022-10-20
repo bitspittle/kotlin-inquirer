@@ -74,7 +74,7 @@ public fun KInquirer.promptInput(
 
             when {
                 interacting -> {
-                    input(transform = { transform(ch) })
+                    input(viewMap = { transform(ch) })
                     if (value.isBlank() && hint.isNotBlank()) {
                         hintText(hint)
                     }

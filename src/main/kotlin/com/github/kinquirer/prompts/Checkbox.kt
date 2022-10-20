@@ -2,10 +2,7 @@ package com.github.kinquirer.prompts
 
 import com.github.kinquirer.KInquirer
 import com.github.kinquirer.core.Choice
-import com.github.kinquirer.kotter.confirmedTextLine
-import com.github.kinquirer.kotter.errorTextLine
-import com.github.kinquirer.kotter.hintText
-import com.github.kinquirer.kotter.questionMark
+import com.github.kinquirer.kotter.*
 import com.varabyte.kotter.foundation.collections.liveSetOf
 import com.varabyte.kotter.foundation.input.Keys
 import com.varabyte.kotter.foundation.input.onKeyPressed
@@ -19,7 +16,7 @@ import kotlin.math.min
 
 public data class CheckboxViewOptions(
     val questionMarkPrefix: RenderScope.() -> Unit = { questionMark() },
-    val cursor: RenderScope.() -> Unit = { cyan { text(if (isOldTerminal) " > " else " ❯ ") } },
+    val cursor: RenderScope.() -> Unit = { cyan(isBright = true) { text(if (isOldTerminal) " > " else " ❯ ") } },
     val nonCursor: RenderScope.() -> Unit = { text("   ") },
     val checked: RenderScope.() -> Unit = { green { text(if (isOldTerminal) "(*) " else "◉ ") } },
     val unchecked: RenderScope.() -> Unit = { text(if (isOldTerminal) "( ) " else "◯ ") },
@@ -64,7 +61,7 @@ public fun <T> KInquirer.promptCheckboxObject(
 
         section {
             // Question mark character
-            viewOptions.questionMarkPrefix
+            viewOptions.questionMarkPrefix(this)
             text(' ')
 
             // Message
@@ -103,7 +100,7 @@ public fun <T> KInquirer.promptCheckboxObject(
 
                 // Info message
                 if (pageSize < choices.size) {
-                    textLine("(move up and down to reveal more choices)")
+                    hintTextLine("(move up and down to reveal more choices)")
                 }
                 // Error message
                 if (errorMessage.isNotBlank()) {

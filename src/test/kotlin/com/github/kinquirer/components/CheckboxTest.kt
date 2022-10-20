@@ -1,47 +1,51 @@
-//package com.github.kinquirer.components
-//
-//import com.github.kinquirer.core.Choice
-//import com.github.kinquirer.core.KInquirerEvent.*
-//import com.github.kinquirer.core.toAnsi
-//import com.github.kinquirer.core.toAnsiStr
-//import org.junit.jupiter.api.Assertions.assertEquals
-//import org.junit.jupiter.api.Test
-//
-//internal class CheckboxTest {
-//
-//    private val checkbox = CheckboxComponent(
-//        message = "hello?",
-//        hint = "please select something",
-//        choices = listOf(
-//            Choice("A", "1"),
-//            Choice("B", "2"),
-//            Choice("C", "3"),
-//            Choice("D", "4"),
-//        ),
-//        maxNumOfSelection = 2,
-//        minNumOfSelection = 1,
-//        pageSize = 2,
-//    )
-//
-//    @Test
-//    fun `test checkbox scrolling down 2 steps`() {
-//        checkbox.onEventSequence {
-//            add(KeyPressDown)
-//            add(KeyPressDown)
-//        }
-//        val expected = buildString {
-//            append("?".toAnsi { bold(); fgGreen() })
-//            append(" ")
-//            append("hello?".toAnsi { bold() })
-//            append(" ")
-//            appendLine("please select something".toAnsi { fgBrightBlack() })
-//            appendLine("   ◯ B")
-//            appendLine(" ❯ ".toAnsiStr { fgBrightCyan() } + "◯ C")
-//            appendLine("(move up and down to reveal more choices)".toAnsi { fgBrightBlack() })
-//        }
-//        assertEquals(expected, checkbox.render())
-//    }
-//
+package com.github.kinquirer.components
+
+import com.github.kinquirer.KInquirer
+import com.github.kinquirer.kotter.confirmedTextLine
+import com.github.kinquirer.kotter.hintTextLine
+import com.github.kinquirer.kotter.questionMark
+import com.github.kinquirer.prompts.promptCheckbox
+import com.github.kinquirer.testKInquirer
+import com.varabyte.kotter.foundation.text.bold
+import com.varabyte.kotter.foundation.text.cyan
+import com.varabyte.kotter.foundation.text.text
+import com.varabyte.kotter.foundation.text.textLine
+import com.varabyte.kotter.runtime.internal.ansi.Ansi
+import com.varabyte.kotterx.test.terminal.sendCode
+import org.junit.jupiter.api.Test
+
+internal class CheckboxTest {
+
+    private fun KInquirer.promptTestCheckbox() {
+        promptCheckbox(
+            message = "hello?",
+            hint = "please select something",
+            choices = listOf("A", "B", "C", "D"),
+            maxNumOfSelection = 2,
+            minNumOfSelection = 1,
+            pageSize = 2,
+        )
+    }
+
+    @Test
+    fun `test checkbox scrolling down 2 steps`() = testKInquirer(
+        block = { promptTestCheckbox() },
+        process = {
+            sendCode(Ansi.Csi.Codes.Keys.DOWN)
+            sendCode(Ansi.Csi.Codes.Keys.DOWN)
+        },
+        expected = {
+            questionMark()
+            text(' ')
+            bold { text("hello?") }
+            text(' ')
+            hintTextLine("please select something")
+            textLine("   ◯ B")
+            cyan(isBright = true) { text(" ❯ ") }; text("◯ "); confirmedTextLine("C")
+            hintTextLine("(move up and down to reveal more choices)")
+        }
+    )
+
 //    @Test
 //    fun `test checkbox scrolling down till the end`() {
 //        checkbox.onEventSequence {
@@ -180,5 +184,5 @@
 //        assertEquals(expected, checkbox.render())
 //
 //    }
-//
-//}
+
+}

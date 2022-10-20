@@ -11,13 +11,14 @@ version = "0.1.0"
 
 repositories {
     mavenCentral()
-    maven("https://us-central1-maven.pkg.dev/varabyte-repos/public") // REMOVE ME
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    api("com.varabyte.kotter:kotter:1.0.0-SNAPSHOT")
+    api("com.varabyte.kotter:kotter:1.0.0-rc2")
     testImplementation(kotlin("test"))
+    testImplementation("com.varabyte.kotterx:kotter-test-support:1.0.0-rc2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
 
 kotlin {

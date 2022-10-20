@@ -11,6 +11,10 @@ public fun RenderScope.hintText(text: String) {
     black(isBright = true) { text(text) }
 }
 
+public fun RenderScope.hintTextLine(text: String) {
+    hintText(text); textLine()
+}
+
 public fun RenderScope.errorText(text: String) {
     red { bold { text(text) } }
 }

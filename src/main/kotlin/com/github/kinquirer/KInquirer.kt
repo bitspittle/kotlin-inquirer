@@ -4,7 +4,7 @@ import com.varabyte.kotter.foundation.session
 import com.varabyte.kotter.foundation.text.textLine
 import com.varabyte.kotter.runtime.Session
 
-public class KInquirer internal constructor(
+public abstract class KInquirer internal constructor(
     block: KInquirer.() -> Unit,
 ) {
     private lateinit var session: Session
@@ -13,11 +13,13 @@ public class KInquirer internal constructor(
     }
 
     init {
-        session {
+        runSession {
             session = this
             block()
         }
     }
+
+    protected abstract fun runSession(block: Session.() -> Unit)
 
     public fun println(message: Any?) {
         session.section {
@@ -27,5 +29,9 @@ public class KInquirer internal constructor(
 }
 
 public fun kinquirer(block: KInquirer.() -> Unit) {
-    KInquirer(block)
+    object : KInquirer(block) {
+        override fun runSession(block: Session.() -> Unit) {
+            session { block() }
+        }
+    }
 }
