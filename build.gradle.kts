@@ -15,9 +15,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    api("com.varabyte.kotter:kotter:1.0.0-rc2")
+    api("com.varabyte.kotter:kotter:1.0.0-rc3")
     testImplementation(kotlin("test"))
-    testImplementation("com.varabyte.kotterx:kotter-test-support:1.0.0-rc2")
+    testImplementation("com.varabyte.kotterx:kotter-test-support:1.0.0-rc3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
 
