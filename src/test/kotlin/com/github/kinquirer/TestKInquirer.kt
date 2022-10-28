@@ -7,6 +7,7 @@ import com.varabyte.kotterx.test.terminal.TestTerminal
 import com.varabyte.kotterx.test.terminal.resolveRerenders
 import kotlinx.coroutines.*
 import java.time.Duration
+import java.util.concurrent.CountDownLatch
 import kotlin.test.fail
 
 private suspend fun blockUntil(maxWait: Duration = Duration.ofNanos(Long.MAX_VALUE), condition: () -> Boolean): Boolean {
@@ -30,7 +31,8 @@ internal fun testKInquirer(
         override fun runSession(block: Session.() -> Unit) {
             testSession { terminal ->
                 val session = this
-                val renderJob = CoroutineScope(Dispatchers.Default).launch {
+                val tearDownReady = CountDownLatch(1)
+                val sectionJob = CoroutineScope(Dispatchers.Default).launch {
                     block()
                 }
                 val eventsJob = CoroutineScope(Dispatchers.IO).launch {
@@ -52,14 +54,15 @@ ${expectedOutput.joinToString("\n")}
                             """
                         )
                     }
-                    session.activeSection?.abort()
+                    tearDownReady.countDown()
                 }
 
+                tearDownReady.await()
                 runBlocking {
-                    listOf(renderJob, eventsJob).joinAll()
+                    listOf(sectionJob, eventsJob).forEach { it.cancelAndJoin() }
                 }
 
-                System.out.println("GOT OUT")
+                println("GOT OUT")
             }
         }
     }

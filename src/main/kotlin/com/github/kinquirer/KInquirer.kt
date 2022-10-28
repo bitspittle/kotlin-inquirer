@@ -21,7 +21,7 @@ public abstract class KInquirer internal constructor(
 
     protected abstract fun runSession(block: Session.() -> Unit)
 
-    public fun println(message: Any?) {
+    public fun info(message: Any?) {
         session.section {
             textLine(message.toString())
         }.run()

@@ -6,19 +6,19 @@ import java.math.BigDecimal
 fun main() = kinquirer {
     // Confirm
     val isDelivery: Boolean = promptConfirm(message = "Is this for delivery?", default = false)
-    println("Is Delivery: $isDelivery")
+    info("Is Delivery: $isDelivery")
 
     // Input
     val comments: String = promptInput(message = "Any comments on your purchase experience?")
-    println("Comments: $comments")
+    info("Comments: $comments")
 
     // Input Numbers
     val quantity: BigDecimal = promptInputNumber(message = "How many do you need?")
-    println("Quantity: $quantity")
+    info("Quantity: $quantity")
 
     // Input Password
     val password: String = promptInputPassword(message = "Enter Your Password:", hint = "password")
-    println("Password: $password")
+    info("Password: $password")
 
     // Input Password Masked
     val passwordMasked: String = promptInputPassword(
@@ -26,12 +26,12 @@ fun main() = kinquirer {
         hint = "password",
         mask = 'x'
     )
-    println("Password: $passwordMasked")
+    info("Password: $passwordMasked")
 
     // List
     val size: String =
         promptList(message = "What size do you need?", choices = listOf("Large", "Medium", "Small"))
-    println("Size: $size")
+    info("Size: $size")
 
     // List View Options
     val continent: String = promptList(
@@ -53,7 +53,7 @@ fun main() = kinquirer {
             nonCursor = { text("    ") },
         )
     )
-    println("Continent: $continent")
+    info("Continent: $continent")
 
     // Checkbox
     val toppings: List<String> = promptCheckbox(
@@ -64,7 +64,7 @@ fun main() = kinquirer {
             "Hawaiian",
         ),
     )
-    println("Toppings: $toppings")
+    info("Toppings: $toppings")
 
     // Checkbox View Options
     val colors: List<String> = promptCheckbox(
@@ -89,5 +89,5 @@ fun main() = kinquirer {
             unchecked = { text("○ ") },
         )
     )
-    println("Colors: $colors")
+    info("Colors: $colors")
 }

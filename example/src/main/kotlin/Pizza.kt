@@ -1,4 +1,3 @@
-import com.github.kinquirer.KInquirer
 import com.github.kinquirer.core.Choice
 import com.github.kinquirer.kinquirer
 import com.github.kinquirer.prompts.*
@@ -19,7 +18,7 @@ data class PizzaOrder(
 )
 
 fun main() = kinquirer {
-    println("Hi, welcome to Kotlin's Pizza")
+    info("Hi, welcome to Kotlin's Pizza")
     val isDelivery: Boolean = promptConfirm("Is this for delivery?", default = false)
     val phoneNumber: String = promptInput(
         message = "What's your phone number?",
@@ -52,7 +51,7 @@ fun main() = kinquirer {
         comments = comments,
     )
 
-    println("====== Order receipt ======")
-    println(order)
+    info("====== Order receipt ======")
+    info(order)
 }
 
